@@ -14,4 +14,5 @@ interface AuthRepository {
     ): User
 
     suspend fun logout()
+    suspend fun getUserName() : Flow<String>
 }

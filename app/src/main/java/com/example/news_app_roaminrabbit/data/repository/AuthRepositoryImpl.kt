@@ -21,6 +21,10 @@ class AuthRepositoryImpl(
         }
     }
 
+    override suspend fun getUserName(): Flow<String> {
+        return localAuthDataSource.getUsername()
+    }
+
     override suspend fun login(
         username: String,
         password: String

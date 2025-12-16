@@ -13,17 +13,23 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.example.news_app_roaminrabbit.app.HomeRoute
+import com.example.news_app_roaminrabbit.app.LoginRoute
+import com.example.news_app_roaminrabbit.app.MainRoute
 import com.example.news_app_roaminrabbit.app.NewsRoute
 import com.example.news_app_roaminrabbit.app.ProfileRoute
-import com.example.news_app_roaminrabbit.ui.feature.home.HomeScreen
-import com.example.news_app_roaminrabbit.ui.feature.news.NewsScreen
+import com.example.news_app_roaminrabbit.ui.feature.main.home.HomeScreen
+import com.example.news_app_roaminrabbit.ui.feature.main.news.NewsScreen
+import com.example.news_app_roaminrabbit.ui.feature.main.profile.ProfileScreen
 
 @Composable
 fun MainScreen(
-    navController: NavHostController
+    rootNavController: NavHostController
 ) {
-    val backStackEntry by navController.currentBackStackEntryAsState()
+    val mainNavController = rememberNavController()
+
+    val backStackEntry by mainNavController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
 
     Scaffold(
@@ -33,7 +39,7 @@ fun MainScreen(
                     NavigationBarItem(
                         selected = currentRoute == item.route::class.qualifiedName,
                         onClick = {
-                            navController.navigate(item.route) {
+                            mainNavController.navigate(item.route) {
                                 popUpTo(HomeRoute) { saveState = true }
                                 launchSingleTop = true
                                 restoreState = true
@@ -49,13 +55,21 @@ fun MainScreen(
         }
     ) { innerPadding ->
         NavHost(
-            navController = navController,
+            navController = mainNavController,
             startDestination = HomeRoute,
             modifier = Modifier.padding(innerPadding)
         ) {
             composable<HomeRoute> { HomeScreen() }
             composable<NewsRoute> {  NewsScreen() }
-            //composable<ProfileRoute> { ProfileScreen() }
+            composable<ProfileRoute> {
+                ProfileScreen(
+                    onLogoutClick = {
+                        rootNavController.navigate(LoginRoute) {
+                            popUpTo(MainRoute) { inclusive = true }
+                        }
+                    }
+                )
+            }
         }
     }
 }

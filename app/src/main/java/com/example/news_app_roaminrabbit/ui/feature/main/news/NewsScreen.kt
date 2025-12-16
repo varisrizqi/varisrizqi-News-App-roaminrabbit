@@ -1,4 +1,4 @@
-package com.example.news_app_roaminrabbit.ui.feature.news
+package com.example.news_app_roaminrabbit.ui.feature.main.news
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -39,7 +39,8 @@ fun NewsScreen(
 
     NewsScreenContent(
         state = state,
-        onEvent = viewModel::onEvent)
+        onEvent = viewModel::onEvent
+    )
 }
 
 @Composable

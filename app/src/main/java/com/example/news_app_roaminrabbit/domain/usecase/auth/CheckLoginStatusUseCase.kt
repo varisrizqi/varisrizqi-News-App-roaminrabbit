@@ -6,5 +6,5 @@ class CheckLoginStatusUseCase(
     private val authRepository: AuthRepository
 ) {
 
-     fun invoke() = authRepository.getAuthState()
+     operator fun invoke() = authRepository.getAuthState()
 }

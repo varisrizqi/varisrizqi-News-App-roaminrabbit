@@ -2,7 +2,7 @@ package com.example.news_app_roaminrabbit.ui.feature.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.news_app_roaminrabbit.data.datastore.AuthPrefDataStore
+import com.example.news_app_roaminrabbit.domain.usecase.auth.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val authPrefDataStore: AuthPrefDataStore
+    private val loginUseCase: LoginUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LoginState())
@@ -49,11 +49,12 @@ class LoginViewModel @Inject constructor(
 
             _uiState.value = _uiState.value.copy(isLoading = true)
 
-            // Dummy delay simulasi login
             delay(800)
 
-            authPrefDataStore.setUsername(_uiState.value.username)
-            authPrefDataStore.setIsLogin(true)
+            loginUseCase.invoke(
+                username = state.username,
+                password = state.password
+            )
 
             _uiState.value = _uiState.value.copy(
                 isLoading = false,

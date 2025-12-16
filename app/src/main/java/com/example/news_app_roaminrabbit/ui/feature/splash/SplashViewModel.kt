@@ -1,9 +1,8 @@
 package com.example.news_app_roaminrabbit.ui.feature.splash
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.news_app_roaminrabbit.domain.repository.AuthRepository
+import com.example.news_app_roaminrabbit.domain.usecase.auth.CheckLoginStatusUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val checkLoginStatusUseCase: CheckLoginStatusUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SplashUiState())
@@ -29,7 +28,7 @@ class SplashViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true)
             delay(1000)
-            val loggedIn = authRepository.getAuthState().first()
+            val loggedIn = checkLoginStatusUseCase.invoke().first()
             _uiState.value = _uiState.value.copy(
                 isLoading = false,
                 navigateToHome = loggedIn.isLoggedIn

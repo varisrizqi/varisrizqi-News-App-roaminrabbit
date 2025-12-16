@@ -1,4 +1,4 @@
-package com.example.news_app_roaminrabbit.ui.feature.home
+package com.example.news_app_roaminrabbit.ui.feature.main.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

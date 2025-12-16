@@ -1,4 +1,4 @@
-package com.example.news_app_roaminrabbit.ui.feature.news
+package com.example.news_app_roaminrabbit.ui.feature.main.news
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

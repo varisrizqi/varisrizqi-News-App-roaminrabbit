@@ -6,7 +6,7 @@ class DeleteNewsUseCase(
     private val newsRepository: NewsRepository
 ) {
 
-    suspend fun invoke(newsId: String) {
+    suspend operator fun invoke(newsId: String) {
         newsRepository.deleteNews(newsId)
     }
 }
